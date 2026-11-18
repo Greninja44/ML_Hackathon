@@ -8,7 +8,7 @@ Updated 2026-11-18 after syncing GitHub `origin/main` @ `47d6dac` and inspecting
 | Item | Where | Status |
 |---|---|---|
 | 8 preprocessing / EDA / visualisation scripts | `src/data/`, `src/features/` (GitHub; zip copy identical) | all run unchanged, see the script inventory below |
-| `PART_1_REPORT.md` | repo root | received |
+| `PART_1_REPORT.md` | was in the repo root; since removed from the repository by the team | received |
 | EDA outputs | `outputs/dataset_inventory.csv`, `outputs/timestamp_analysis.csv` | reproduced byte-identically |
 | Trip-1 visualisations | `visualizations/` | received |
 | Raw dataset (80 train + 10 student-test trips) | `raw_dataset.zip` → extracted to `data/raw/{train,student_test}/<id>/<id>.{track,nodes,arcs,route}` (git-ignored) | 360 files, 94 MB |
