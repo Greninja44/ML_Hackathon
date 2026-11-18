@@ -112,8 +112,8 @@
     setBusy(true, "Loading the road network…");
     try {
       const net = await api(`/trips/${encodeURIComponent(trip.trip_id)}/network`);
-      const road = css("--fg-3");
-      for (const seg of net.arcs) L.polyline(seg, { color: road, weight: 1, opacity: 0.7, interactive: false }).addTo(layers.network);
+      const road = css("--map-road");
+      for (const seg of net.arcs) L.polyline(seg, { color: road, weight: 1, opacity: 0.9, interactive: false }).addTo(layers.network);
     } catch (e) { showError(e.message); }
     finally {
       setBusy(false);
@@ -140,7 +140,7 @@
 
   function draw(r) {
     layers.route.clearLayers(); layers.gps.clearLayers(); layers.markers.clearLayers();
-    const fg = css("--fg"), fg2 = css("--fg-2"), bg = css("--bg");
+    const fg = css("--map-ink"), fg2 = css("--map-ink-2"), bg = css("--map-halo");
     for (const line of r.route_polylines) {
       L.polyline(line, { color: bg, weight: 7, opacity: 0.9, interactive: false }).addTo(layers.route); // halo
       L.polyline(line, { color: fg, weight: 3, opacity: 1, lineCap: "round", lineJoin: "round" })
