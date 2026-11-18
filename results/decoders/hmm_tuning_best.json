@@ -1,0 +1,37 @@
+{
+  "tuned_on": "out-of-fold probabilities, training trips",
+  "trip_ids": [
+    "00000006",
+    "00000008",
+    "00000012",
+    "00000018",
+    "00000035",
+    "00000044",
+    "00000045",
+    "00000047",
+    "00000050",
+    "00000058",
+    "00000066",
+    "00000070",
+    "00000074",
+    "00000081",
+    "00000083",
+    "00000084",
+    "00000088",
+    "00000092",
+    "00000093",
+    "00000098"
+  ],
+  "objective": "pooled observation Top-1 after HMM decoding",
+  "hmm": {
+    "emission": "hybrid",
+    "sigma_m": 12.0,
+    "ml_weight": 0.5,
+    "beta_m": 40.0,
+    "max_route_factor": 4.0,
+    "max_route_slack_m": 200.0,
+    "gap_seconds": 30.0,
+    "backward_tolerance_m": 5.0,
+    "min_log_prob": -50.0
+  }
+}
