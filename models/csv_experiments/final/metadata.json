@@ -1,0 +1,41 @@
+{
+  "model_name": "mlp_tuned",
+  "base_model": "mlp",
+  "family": "Neural network",
+  "params": {
+    "hidden_layer_sizes": [
+      256,
+      128,
+      64
+    ],
+    "alpha": 9.962513222055122e-06,
+    "learning_rate_init": 0.0010677482709481358,
+    "max_iter": 200,
+    "early_stopping": true,
+    "validation_fraction": 0.1,
+    "n_iter_no_change": 10
+  },
+  "loss": "binary cross-entropy (Adam)",
+  "seed": 42,
+  "data": "Person 1 CSVs (train)",
+  "target": "monotone route alignment",
+  "max_train_rows": null,
+  "feature_columns": [
+    "distance_m",
+    "dist_rank",
+    "dist_minus_min",
+    "n_candidates",
+    "direction_difference",
+    "direction_axis",
+    "heading_unreliable",
+    "gps_speed_mps",
+    "speed_spike",
+    "time_gap_sec",
+    "road_length_m",
+    "has_reverse_twin",
+    "ctx_mean_dist_m",
+    "ctx_hit_share",
+    "prev_link",
+    "next_link"
+  ]
+}

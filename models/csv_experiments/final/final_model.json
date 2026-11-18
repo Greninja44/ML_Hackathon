@@ -1,0 +1,6 @@
+{
+  "final_model": "mlp_tuned",
+  "rule": "tuned if CV Top-1 >= untuned CV Top-1",
+  "untuned_cv_top1": 0.714275668210963,
+  "tuned_cv_top1": 0.7156282890652468
+}

@@ -1,0 +1,16 @@
+{
+  "partition": "student_test",
+  "n_trips": 10,
+  "n_pairs": 79669,
+  "n_points": 19160,
+  "candidates_per_point": {
+    "1": 176,
+    "2": 4153,
+    "3": 370,
+    "4": 2228,
+    "5": 12233
+  },
+  "gps_index_gaps": 0,
+  "route_steps": 3477,
+  "route_len_median": 250.0
+}

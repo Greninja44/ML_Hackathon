@@ -1,0 +1,26 @@
+{
+  "model": "mlp",
+  "sampler": "TPE (seed 42)",
+  "pruner": "MedianPruner",
+  "objective": "mean CV Top-1 (GroupKFold by trip, 80 training trips)",
+  "n_trials": 27,
+  "trial_states": {
+    "COMPLETE": 14,
+    "PRUNED": 13
+  },
+  "best_value": 0.7156282890652468,
+  "best_params": {
+    "hidden_layer_sizes": [
+      256,
+      128,
+      64
+    ],
+    "alpha": 9.962513222055122e-06,
+    "learning_rate_init": 0.0010677482709481358,
+    "max_iter": 200,
+    "early_stopping": true,
+    "validation_fraction": 0.1,
+    "n_iter_no_change": 10
+  },
+  "wall_time_s": 3636.66878225
+}
