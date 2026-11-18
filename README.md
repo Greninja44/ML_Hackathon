@@ -183,7 +183,6 @@ Optional settings, all environment variables:
 | [`docs/csv_data_report.md`](docs/csv_data_report.md) | checks on Person 1's CSVs |
 | [`docs/evaluator_data.md`](docs/evaluator_data.md) | how the evaluator data was handled |
 | [`docs/requirements_checklist.md`](docs/requirements_checklist.md) | the official requirements and where each is met |
-| [`PART_1_REPORT.md`](PART_1_REPORT.md) | Person 1's report on data processing |
 
 ## Team
 
