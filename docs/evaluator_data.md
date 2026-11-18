@@ -43,16 +43,16 @@ saved, tuned HMM config, in both decoder modes. Nothing is retrained or tuned. O
 
 | Stage | Result |
 |---|---|
-| Raw parsing (`.track`, `.nodes`, `.arcs`) | ✅ 10/10, same format as training data |
-| Road network build, UTM projection, KD-tree | ✅ 10/10 |
-| Track cleaning | ✅ |
-| Candidate generation | ✅ every point has ≥ 1 candidate (0 points without candidates) |
-| Feature preprocessing (training-time `build_features`) | ✅ |
-| ML inference (`CandidateScorer.predict_candidates`) | ✅ |
-| HMM emissions/transitions + Viterbi | ✅ every point matched in every trip |
-| Route reconstruction (connected arc sequence) | ✅ |
+| Raw parsing (`.track`, `.nodes`, `.arcs`) | 10/10, same format as training data |
+| Road network build, UTM projection, KD-tree | 10/10 |
+| Track cleaning | OK, 10/10 |
+| Candidate generation | every point has ≥ 1 candidate (0 points without candidates) |
+| Feature preprocessing (training-time `build_features`) | OK, 10/10 |
+| ML inference (`CandidateScorer.predict_candidates`) | OK, 10/10 |
+| HMM emissions/transitions + Viterbi | every point matched in every trip |
+| Route reconstruction (connected arc sequence) | OK, 10/10 |
 | Runtime, both modes | 144 ms – 1.1 s per trip |
-| API `/health`, `/trips`, `/trips/{id}/network` with label loader disabled | ✅ 10 trips listed, all network calls 200 |
+| API `/health`, `/trips`, `/trips/{id}/network` with label loader disabled | 10 trips listed, all network calls 200 |
 
 Structural note, recorded and **not** acted on: trip 00000015 (6,854 points) produced
 138 decoder segment breaks, and trips 00000067 and 00000094 produced 6 each. A segment break restarts

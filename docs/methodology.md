@@ -36,7 +36,7 @@ decreases over time and the sum of point-to-arc distances is minimal (exact DP,
 O(N·L)). Residuals are reported — the reference route is treated as
 reference information, not error-free truth (DE §6).
 
-**Viva point:** labels are derived *only* for training/evaluation. The
+Note: labels are derived *only* for training/evaluation. The
 prediction pipeline (`TripInputs`) never contains the route.
 
 ## 2. Candidate generation (`src/map_matching/candidates.py`)

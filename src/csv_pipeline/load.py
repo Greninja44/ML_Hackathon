@@ -4,7 +4,7 @@ This is the *CSV workflow*, deliberately separate from the raw-data workflow
 (`src/data/`). The CSVs contain no coordinates or road geometry, so nothing in
 this package can draw maps or compute network distances.
 
-Verified schema (see docs/CSV_DATA_REPORT.md for evidence):
+Verified schema (see docs/csv_data_report.md for evidence):
 
 ``<partition>_features.csv`` — one row per (GPS point, candidate arc) pair
     partition, trip_id, gps_index (0..n-1 per trip), timestamp [s],

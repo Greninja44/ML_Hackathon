@@ -87,7 +87,7 @@ Response (real output for student-test trip 00000052, lists shortened):
 | `observations[].score` | classifier probability of the chosen candidate |
 | `route_arc_ids` | connected predicted route (consecutive duplicates removed; short gaps bridged by shortest network paths) |
 | `route_polylines` | the route as `[lat, lon]` polylines for drawing |
-| `metrics` | computed server-side against the internal reference route (definitions: `docs/METHODOLOGY.md`); `null` if the trip has no `.route` |
+| `metrics` | computed server-side against the internal reference route (definitions: `docs/methodology.md`); `null` if the trip has no `.route` |
 
 Errors:
 
