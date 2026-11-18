@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>PathSnap</title>
+  <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <aside class="side">
+    <header class="head">
+      <h1>PathSnap</h1>
+      <p class="sub">Noisy GPS in, the road actually driven out.</p>
+    </header>
+
+    <form id="api-form" class="conn">
+      <span id="api-dot" class="dot" aria-hidden="true"></span>
+      <input id="api-url" type="url" spellcheck="false" aria-label="API address" placeholder="http://192.168.x.x:8000" required>
+      <button type="submit" class="link">connect</button>
+    </form>
+    <p id="api-status" class="note">Not connected.</p>
+
+    <section class="block">
+      <div class="label-row">
+        <h2>Trips</h2>
+        <span id="trip-count" class="note"></span>
+      </div>
+      <ol id="trip-list" class="trips" aria-live="polite"></ol>
+    </section>
+
+    <section class="block">
+      <h2>Decoder</h2>
+      <div class="toggle" role="radiogroup" aria-label="Decoder">
+        <label><input type="radio" name="mode" value="hmm" checked><span>classifier + HMM</span></label>
+        <label><input type="radio" name="mode" value="classifier"><span>classifier only</span></label>
+      </div>
+      <label class="check"><input id="compare" type="checkbox" checked><span>also run the other one, for comparison</span></label>
+      <button id="run" class="run" disabled>Match route</button>
+    </section>
+
+    <div id="error" class="error" role="alert" hidden></div>
+
+    <section id="results" class="block results" hidden>
+      <h2>Result <span id="res-trip" class="note"></span></h2>
+      <p class="hero"><span id="k-top1">–</span><span class="hero-caption">of GPS points placed on the right road</span></p>
+      <p id="summary" class="summary"></p>
+      <dl id="details" class="facts"></dl>
+      <div id="compare-block" hidden>
+        <h3>Side by side</h3>
+        <table id="compare-table" class="cmp"></table>
+      </div>
+      <p class="fine">Scored on the server against its own reference routes. Those routes never reach this page.</p>
+    </section>
+  </aside>
+
+  <main class="stage">
+    <div id="map" aria-label="Map"></div>
+    <div id="progress" class="progress" hidden><span></span></div>
+    <p id="loading-text" class="map-note" hidden></p>
+    <p id="empty-note" class="map-note">Pick a trip on the left.</p>
+    <ul class="key" aria-label="Map key">
+      <li><i class="k-route"></i>matched route</li>
+      <li><i class="k-gps"></i>raw GPS</li>
+      <li><i class="k-road"></i>nearby roads</li>
+    </ul>
+  </main>
+
+  <script src="vendor/leaflet/leaflet.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
