@@ -1,0 +1,75 @@
+{
+  "primary_metric": "cross-validated observation-level top1_accuracy (mean over trip-grouped folds)",
+  "tie_breakers": [
+    "student_top1",
+    "student_log_loss",
+    "inference_ms_per_1k_pairs"
+  ],
+  "ranking": [
+    {
+      "model": "hist_gradient_boosting",
+      "cv_top1_mean": 0.7715573761152699,
+      "cv_top1_std": 0.20356471803804063,
+      "student_top1": 0.877035490605428,
+      "student_hmm_top1": 0.8771398747390396,
+      "student_log_loss": 0.11220235082373378
+    },
+    {
+      "model": "random_forest",
+      "cv_top1_mean": 0.770766578259959,
+      "cv_top1_std": 0.20771992442629866,
+      "student_top1": 0.8838204592901879,
+      "student_hmm_top1": 0.8766179540709812,
+      "student_log_loss": 0.10054850169035512
+    },
+    {
+      "model": "mlp",
+      "cv_top1_mean": 0.767527814624717,
+      "cv_top1_std": 0.20767584248239335,
+      "student_top1": 0.8816283924843423,
+      "student_hmm_top1": 0.8754175365344468,
+      "student_log_loss": 0.10714913962731822
+    },
+    {
+      "model": "extra_trees",
+      "cv_top1_mean": 0.7666243027362333,
+      "cv_top1_std": 0.20727541319957277,
+      "student_top1": 0.876356993736952,
+      "student_hmm_top1": 0.868580375782881,
+      "student_log_loss": 0.10943211229789145
+    },
+    {
+      "model": "decision_tree",
+      "cv_top1_mean": 0.7651512317422176,
+      "cv_top1_std": 0.20726927712740936,
+      "student_top1": 0.8779749478079332,
+      "student_hmm_top1": 0.8752609603340292,
+      "student_log_loss": 0.13131514506325076
+    },
+    {
+      "model": "knn",
+      "cv_top1_mean": 0.7567401519344655,
+      "cv_top1_std": 0.20622124097810174,
+      "student_top1": 0.8644572025052192,
+      "student_hmm_top1": 0.8710334029227558,
+      "student_log_loss": 0.26431183780148587
+    },
+    {
+      "model": "logistic_regression",
+      "cv_top1_mean": 0.7471918302646456,
+      "cv_top1_std": 0.2004464070352033,
+      "student_top1": 0.8545929018789145,
+      "student_hmm_top1": 0.8545929018789145,
+      "student_log_loss": 0.16488735571689034
+    },
+    {
+      "model": "gaussian_nb",
+      "cv_top1_mean": 0.7208400840338451,
+      "cv_top1_std": 0.19227984642591228,
+      "student_top1": 0.8092379958246346,
+      "student_hmm_top1": 0.8591858037578288,
+      "student_log_loss": 0.840960772732918
+    }
+  ],
+  "selected_model": "hist_gradient_boosting"
+}
