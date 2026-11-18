@@ -190,7 +190,7 @@ Optional settings, all environment variables:
 | Role | Who | Main areas |
 |---|---|---|
 | Person 1: data processing | Anwesha Manik | dataset exploration, candidate generation, feature CSVs (`src/features/`) |
-| Person 2: machine learning | Greninja44 | labels, features, model training and tuning, evaluation |
+| Person 2: machine learning | Adarsh D| labels, features, model training and tuning, evaluation |
 | Person 3: map matching and system | Bhavish Arun | HMM and Viterbi, API, UI, maps |
 
 We used an AI coding assistant while building this. Every result here comes
