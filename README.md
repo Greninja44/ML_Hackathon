@@ -1,174 +1,197 @@
-# PathSnap — Distributed Map-Matching & Route Reconstruction
+# PathSnap
 
-PathSnap matches noisy GPS trajectories to a road network and reconstructs the
-travelled route. Machine-learning models score candidate road segments for each
-GPS fix, and an HMM/Viterbi decoder turns those scores into a connected route.
-A FastAPI service (Laptop 1) evaluates the reserved trips; a browser UI
-(Laptop 2) lets the evaluator pick a trip and see the result.
+GPS is noisy. In a city a car's position can drift onto the parallel street,
+jump across a block, or vanish for a few seconds. PathSnap takes those noisy
+points and works out which roads the car actually drove on.
+
+It does this in two steps. First a classifier looks at each GPS point and
+scores the nearby road segments it could belong to. Then a hidden Markov model
+strings those guesses together, using the road network to rule out routes that
+are impossible to drive, such as jumping between two roads that don't connect.
+
+This is our submission for the UE24CS352A PathSnap hackathon.
+
+## How well it works
+
+All numbers are from the 10 student-testing trips (19,160 GPS points), which
+the models never trained on. Every figure comes from a file in `results/`.
+
+| Method | Points on the right road | Route continuity | Route F1 |
+|---|---|---|---|
+| Snap to the nearest road | 54.4 % | 27.8 % | 61.6 % |
+| Classifier only | 87.8 % | 78.0 % | 81.4 % |
+| **Classifier + HMM** | **88.5 %** | **89.5 %** | **93.0 %** |
+
+The HMM's main contribution is a route that holds together. The classifier
+alone often hops to a wrong road for one or two points, which barely affects
+point accuracy but breaks the route into pieces.
+
+Full results, the comparison of all eight models and the tuning runs are in
+[`docs/model_evaluation.md`](docs/model_evaluation.md).
+
+## How it fits together
 
 ```
-GPS track + road network
-  → cleaning & projection (src/data/preprocess.py, src/geo.py)
-  → candidate arcs per GPS point (src/map_matching/candidates.py)
-  → pair features (src/data/features.py)
-  → ML candidate probabilities (src/models/inference.py)
-  → HMM emissions + network transitions → Viterbi (src/map_matching/)
-  → reconstructed route + server-side metrics (src/api/)
-  → map in the evaluator UI (frontend/)
+GPS track + road network for one trip
+  -> clean the track, project to metres (UTM)
+  -> find candidate road segments near each point     src/map_matching/candidates.py
+  -> describe each (point, road) pair with 19 features src/data/features.py
+  -> classifier scores every candidate                src/models/inference.py
+  -> HMM + Viterbi picks the most likely route         src/map_matching/
+  -> API returns the route and scores it              src/api/
+  -> UI draws it on a map                             frontend/
 ```
 
-* Requirements extracted from the official guidelines: [`PROJECT_REQUIREMENTS.md`](PROJECT_REQUIREMENTS.md)
-* Design decisions (for the report and viva): [`docs/METHODOLOGY.md`](docs/METHODOLOGY.md)
+On evaluation day this runs on two laptops, as the guidelines ask. Laptop 1
+runs the API, which holds the model, the road networks and the reference
+routes. Laptop 2 runs the UI. The evaluator picks a trip in the UI, the API
+reconstructs it and scores it against the reference route, and only the score
+goes back. The reference route itself never leaves the API laptop.
 
 ## Repository layout
 
-| Path | Purpose |
-|---|---|
-| `configs/pipeline.json` | All tunable settings (radii, HMM params, CV folds, seed, paths) |
-| `src/data/` | Loading (`io.py`), validation, cleaning, label alignment, features, EDA |
-| `src/map_matching/` | Candidates, HMM emissions/transitions, Viterbi, reconstruction, route metrics |
-| `src/models/` | Model registry, training + CV, evaluation metrics, Optuna optimisation, inference API |
-| `src/experiments/` | Classifier-only vs HMM comparison, decoder tuning, report maps |
-| `src/visualization/` | Matplotlib plots and Folium maps |
-| `src/api/` | FastAPI app, schemas, service |
-| `frontend/` | Evaluator UI (static HTML/JS, Leaflet vendored) |
-| `notebooks/` | 01 EDA, 02 training/HPO, 03 decoder evaluation |
-| `scripts/` | `run_eda.py`, `run_all.sh`, `serve_ui.py` |
-| `tests/` | Unit, API and end-to-end tests (`tests/synthetic.py` = synthetic fixture for tests only) |
-| `data/raw/{train,student_test,eval_test}/` | Raw trips (not committed) |
-| `models/final/` | Final model + HMM config used by the API |
-| `results/` | All generated tables, plots, logs and maps |
+```
+configs/pipeline.json   every tunable setting (search radius, HMM parameters, CV folds, seed)
+src/data/               loading, cleaning, validation, EDA, labels, features
+src/features/           Person 1's preprocessing scripts (unchanged)
+src/map_matching/       candidates, HMM, Viterbi, route reconstruction, route metrics
+src/models/             model zoo, training and cross-validation, Optuna tuning, inference
+src/csv_pipeline/       experiments on Person 1's preprocessed CSVs
+src/experiments/        classifier vs HMM comparison and decoder tuning
+src/visualization/      plots and Folium maps
+src/api/                FastAPI backend
+frontend/               evaluator UI (plain HTML and JS, Leaflet included)
+notebooks/              EDA, training and evaluation walkthroughs
+scripts/                one-off entry points (EDA, full pipeline, UI server, evaluator check)
+tests/                  unit, API and end-to-end tests
+models/final/           the model and HMM settings the API loads
+results/                every table, plot, map and log the experiments produce
+docs/                   methodology, evaluation, API reference and data notes
+```
 
-## Installation
+## Getting started
 
-Python 3.11.
+You need Python 3.11.
 
 ```bash
-python3.11 -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
+python3.11 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-XGBoost/LightGBM are optional; they need the OpenMP runtime (`brew install libomp` on macOS).
-
-## Data
-
-Put the supplied trips under `data/raw/` by partition. Any sub-folder layout
-works: the loader finds every `*.track` file and pairs it with the
-`.nodes/.arcs/.route` files that have the same name (or the only such file in that folder).
+The dataset isn't in the repository. Unzip it so each trip sits in its own folder:
 
 ```
-data/raw/train/<trip>/<trip>.track|.nodes|.arcs|.route        (80 trips)
-data/raw/student_test/...                                    (10 trips)
-data/raw/eval_test/...                                       (10 trips — API only)
+data/raw/train/<trip_id>/<trip_id>.track  .nodes  .arcs  .route
+data/raw/student_test/<trip_id>/...
+data/raw/eval_test/<trip_id>/...           only on the API laptop
 ```
 
-Use `PATHSNAP_DATA_DIR` to point somewhere else. Development code **cannot** read
-`eval_test` (`iter_partition` raises an error); only the API service reads it.
+Person 1's preprocessed CSVs, if you want to rerun the CSV experiments, go in `data/person1/`.
 
-## Running the development pipeline
+## Running the experiments
 
 ```bash
-python scripts/run_eda.py                          # EDA tables, plots, Folium maps → results/eda/
-python -m src.models.train                         # ≥5 models, GroupKFold CV, student-test comparison
-python -m src.models.optimize                      # Optuna on the selected model → models/final/
-python -m src.experiments.compare_decoders --tune  # HMM tuning + classifier vs HMM + report maps
+python scripts/run_eda.py                          # dataset exploration -> results/eda/
+python -m src.models.train                         # train and compare 8 models
+python -m src.models.optimize                      # Bayesian tuning of the chosen model -> models/final/
+python -m src.experiments.compare_decoders --tune  # tune the HMM, compare it with classifier-only
 python -m pytest -q
 ```
 
-Or run everything with `scripts/run_all.sh`. Key outputs:
+`scripts/run_all.sh` runs all of this in order. On a 12-core laptop the whole
+thing takes about half an hour.
 
-| File | Report section |
-|---|---|
-| `results/eda/*` | 2.2 EDA (tables, plots, Folium maps) |
-| `results/model_comparison.csv`, `results/plots/*` | 3.1 comparison table, 3.3 plots |
-| `results/models/<model>/` | 3.2 per-model metrics, confusion matrix, importance, loss curves |
-| `results/optuna/<model>/`, `results/tuned_vs_untuned.csv` | 4 Bayesian optimisation |
-| `results/decoders/*` | 5 HMM vs classifier, 6 Folium maps |
-| `results/logs/*.log` | experiment logs |
-
-## Deployment (evaluation day)
-
-**Laptop 1: API**
+The experiments on Person 1's CSVs are kept separate:
 
 ```bash
-export PATHSNAP_SERVE_PARTITION=eval_test       # student_test for rehearsal
+python -m src.csv_pipeline.experiments compare
+python -m src.csv_pipeline.experiments optimize
+python -m src.csv_pipeline.experiments decoders
+```
+
+## Evaluation day
+
+On **Laptop 1** (API):
+
+```bash
 uvicorn src.api.main:app --host 0.0.0.0 --port 8000
 ```
 
-Swagger docs are at `http://<laptop1-ip>:8000/docs`. Keep this terminal visible: every
-request is logged there and in `results/logs/api.log`. Allow port 8000 through the firewall.
+It serves `data/raw/eval_test/` by default. To rehearse on the student-testing
+trips instead, set `PATHSNAP_SERVE_PARTITION=student_test`. Keep this terminal on
+screen: every request is logged there, and the evaluator will want to see it.
+Port 8000 needs to be open in the firewall.
 
-**Laptop 2: UI**
+On **Laptop 2** (UI):
 
 ```bash
-python scripts/serve_ui.py --port 5173
-# open http://localhost:5173/?api=http://<laptop1-ip>:8000
+python scripts/serve_ui.py
 ```
 
-Both laptops must be on the same network. The UI needs only Python's standard
-library. Map tiles come from OpenStreetMap; without internet the route and GPS
-layers still draw, just without a basemap.
+Then open `http://localhost:5173/?api=http://<laptop-1-ip>:8000`. Both laptops
+must be on the same network. The UI needs nothing but Python. Without internet
+the background map tiles won't load, but the route and GPS points still draw.
 
-### API reference
+The endpoints, with real example responses, are documented in [`docs/api.md`](docs/api.md).
+Interactive docs are at `http://<laptop-1-ip>:8000/docs` while the API is running.
 
-| Method | Path | Body / result |
+Optional settings, all environment variables:
+
+| Variable | Default | What it does |
 |---|---|---|
-| GET | `/health` | model loaded, partition served, number of trips |
-| GET | `/trips` | `[{trip_id, n_observations, duration_s, bbox}]` |
-| GET | `/trips/{trip_id}/network` | road segments near the trajectory |
-| POST | `/reconstruct` | `{"trip_id": "...", "mode": "hmm" \| "classifier", "compare": true}` |
+| `PATHSNAP_SERVE_PARTITION` | `eval_test` | which trips the API offers |
+| `PATHSNAP_DATA_DIR` | `data/raw` | where the trip folders live |
+| `PATHSNAP_MODEL_DIR` | `models/final` | which model the API loads |
+| `PATHSNAP_CORS_ORIGINS` | `*` | which UI addresses may call the API |
 
-Example:
+## Keeping the evaluation honest
 
-```bash
-curl -X POST http://localhost:8000/reconstruct -H 'Content-Type: application/json' \
-     -d '{"trip_id": "<id from /trips>", "mode": "hmm", "compare": true}'
-```
+* Trips are never split across training and testing. Cross-validation keeps all
+  points of a trip in the same fold.
+* The data provides an ordered route per trip, not a road per GPS point. We
+  derive per-point labels by aligning the route to the points in order. This is
+  explained, and checked for stability, in [`docs/methodology.md`](docs/methodology.md).
+* Features are built from GPS and road data only. A test checks that changing
+  the reference route can't change them.
+* Model choice, hyperparameters and HMM settings were all decided on training
+  data. The student-testing trips were used only to compare.
+* The training code refuses to read the evaluator trips. We ran the pipeline
+  on their inputs once, to check it doesn't crash, without opening their
+  reference routes or computing any score. See [`docs/evaluator_data.md`](docs/evaluator_data.md).
 
-The response contains each observation's predicted arc and snapped position, the
-route arc ids and polylines, server-side metrics (Top-1 accuracy, candidate miss
-rate, route continuity, sequence precision/recall/F1, edit similarity), the
-optional comparison of both modes, and timings. Reference-route data is never
-included (a test enforces this).
+## Known limitations
 
-## Data-leakage safeguards
+* Two training trips, 00000054 and 00000033, have GPS that sits 120–140 m away
+  from their reference route. We kept them, so the cross-validation scores
+  include them, and we flagged them for Person 1.
+* Roads are stored as straight segments between nodes, so curved roads with few
+  nodes look further from the GPS than they really are.
+* The HMM helps 9 of the 10 test trips. On trip 00000007 it costs 5 points of
+  accuracy, which we haven't fully explained yet.
+* Route continuity and the sequence scores are our own definitions, because the
+  guidelines don't define them precisely.
 
-* Splits are by trip; CV uses `GroupKFold(groups=trip_id)`.
-* Scalers are fitted inside each CV fold's pipeline.
-* Features are computed from GPS + network only; a test checks that changing the route does not change the features.
-* The decoder is tuned on out-of-fold probabilities for training trips.
-* `eval_test` is blocked for all development code; the API keeps the reference route in-process.
+## Further reading
 
-## Two workflows
+| Document | What's in it |
+|---|---|
+| [`docs/model_evaluation.md`](docs/model_evaluation.md) | all results: model comparison, tuning, HMM vs classifier |
+| [`docs/methodology.md`](docs/methodology.md) | why each design decision was made |
+| [`docs/api.md`](docs/api.md) | API reference |
+| [`docs/person1_integration.md`](docs/person1_integration.md) | how Person 1's data and scripts fit in, and what we found in them |
+| [`docs/csv_data_report.md`](docs/csv_data_report.md) | checks on Person 1's CSVs |
+| [`docs/evaluator_data.md`](docs/evaluator_data.md) | how the evaluator data was handled |
+| [`docs/requirements_checklist.md`](docs/requirements_checklist.md) | the official requirements and where each is met |
+| [`PART_1_REPORT.md`](PART_1_REPORT.md) | Person 1's report on data processing |
 
-| | **CSV workflow** (`src/csv_pipeline/`) | **Raw-data workflow** (`src/data/`, `src/map_matching/`, `src/api/`) |
+## Team
+
+| Role | Who | Main areas |
 |---|---|---|
-| Input | Person 1's 4 CSVs in `data/person1/` | `.track/.nodes/.arcs/.route` in `data/raw/` |
-| Available now | ✅ | ❌ raw files not yet received |
-| Labels | route sequence aligned to points (monotone DP on `distance_m`) | same idea on true geometry |
-| Models, CV, Optuna | ✅ | ✅ (code ready) |
-| HMM | topology-only (node connectivity, no distances) | full (network driving distance vs GPS distance) |
-| Maps / API / UI | ❌ CSVs have no coordinates | ✅ (code ready) |
+| Person 1: data processing | Anwesha Manik | dataset exploration, candidate generation, feature CSVs (`src/features/`) |
+| Person 2: machine learning | Greninja44 | labels, features, model training and tuning, evaluation |
+| Person 3: map matching and system | Bhavish Arun | HMM and Viterbi, API, UI, maps |
 
-```bash
-python -m src.csv_pipeline.experiments compare     # ≥5 models, CV + student-test
-python -m src.csv_pipeline.experiments optimize    # Optuna on the selected model
-python -m src.csv_pipeline.experiments decoders    # topology HMM tuning + comparison
-```
-
-Results go to `results/csv_pipeline/`. Data findings and limitations are in
-[`docs/CSV_DATA_REPORT.md`](docs/CSV_DATA_REPORT.md). What we still need from
-Person 1 is in [`PERSON1_INTEGRATION.md`](PERSON1_INTEGRATION.md).
-
-## Status
-
-* The CSV workflow has run on the real CSVs; see `results/csv_pipeline/`.
-* The raw-data workflow (maps, full HMM, API, UI) has only been tested on the
-  **synthetic** fixture in `tests/synthetic.py`. Those numbers are not results.
-  It needs the raw files before it can be run for real.
-
-## AI-assistance disclosure
-
-Parts of this codebase were developed with the help of an AI coding assistant.
-The team is responsible for verifying, running, and being able to explain all
-code and every reported result (Deliverables §8, Assessment Policy §5).
+We used an AI coding assistant while building this. Every result here comes
+from code in this repository that we ran ourselves, and we can explain all of it.

@@ -4,7 +4,7 @@ Every feature is computed from the GPS track and road network only — never
 from the reference route — so the same function is used for training, offline
 evaluation and the live API (no train/serve skew, no label leakage).
 
-Feature rationale (see docs/METHODOLOGY.md for the full discussion):
+Feature rationale (see docs/methodology.md for the full discussion):
 
 =====================  =====================================================
 dist_m                 perpendicular GPS→arc distance; the classic emission cue

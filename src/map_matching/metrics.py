@@ -1,6 +1,6 @@
 """Observation- and route-level metrics (Models & Training Guidelines §5).
 
-Definitions used (recorded in PROJECT_REQUIREMENTS.md §7):
+Definitions used (recorded in docs/requirements_checklist.md §7):
 
 * **Top-1 accuracy** — fraction of labelled observations whose predicted arc
   equals the reference arc. Observations with no prediction count as wrong.

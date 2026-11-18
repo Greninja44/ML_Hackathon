@@ -79,7 +79,7 @@ ambiguity is listed in the final section rather than silently resolved.
 | Public GitHub repo with data processing, feature engineering, training for every model, evaluation & plots & confusion matrices, Bayesian optimisation + results, HMM/Viterbi, API, UI, deployment config, Folium code, supporting CSVs/logs. | DL §1 | Folder layout in README. |
 | Include saved model weights + configs (subject to size). | DL §1 | `models/final/`. |
 | README with install, execution, deployment. | DL §1 | `README.md`. |
-| No secrets committed. | DL §1 | `.gitignore`, `.env.example` only. |
+| No secrets committed. | DL §1 | `.gitignore`; configuration via environment variables documented in the README. |
 | Technical report PDF (sections 2.2–7) with real results, tables, graphs, Folium map screenshot, UI + API-log screenshots. | DL §2–7 | **Written by the team.** Repo produces every table/graph it needs (`results/`). Not auto-generated (AP §5). |
 | Plots: CV Macro F1 across models; student-test Top-1 & Macro F1; log loss; confusion matrices; loss curves **only** for models with epoch histories. | DL §3.3 | `src/visualization/plots.py`; loss curves only for MLP (`loss_curve_`) and HistGradientBoosting (`train_score_`/`validation_score_`). |
 | Folium maps: GPS points, road network, reference route, predicted route; legend; layer control; sensible zoom. | DL §6 | `src/visualization/folium_maps.py`, `scripts/make_maps.py` (offline/report only — reference route never sent to UI). |
@@ -104,17 +104,17 @@ ambiguity is listed in the final section rather than silently resolved.
 6. **Route continuity** = share of consecutive distinct predicted arcs that are directly connected (unchanged; our definition).
 7. **Sequence-level performance** = arc-set precision/recall/F1, length-weighted precision/recall and edit similarity vs `.route` (unchanged; our definition).
 8. **Evaluator `.route` availability:** still assumed (MT §6 says the API scores against "internal reference data"). The API returns `metrics = null` if a route is absent.
-9. **Person 1 integration, resolved:** all 8 scripts are present and run unchanged (`PERSON1_SCRIPTS_INVENTORY.md`). The production pipeline uses our candidate generation because of measured recall and reproducibility (`PERSON1_INTEGRATION.md`).
+9. **Person 1 integration, resolved:** all 8 scripts are present and run unchanged (the script inventory in `docs/person1_integration.md`). The production pipeline uses our candidate generation because of measured recall and reproducibility (`docs/person1_integration.md`).
 10. **Known data anomalies (kept, documented):** trips 00000054 and 00000033 (GPS ≈ 120–140 m from the reference route); runs of > 50 m/s speeds in trips 00000032 and 00000001; a 153,064 s maximum time gap.
 
 ## 8. Implementation status
 
 | Area | Status |
 |---|---|
-| Raw-data loading, validation, EDA (DE §4, §8) | ✅ on real data, `results/eda/` |
-| ≥ 5 models, GroupKFold CV, metrics (MT §2–6) | ✅ Workflow A (CSV) complete; Workflow B (raw) running |
-| Bayesian optimisation (MT §7) | ✅ code; running on both workflows |
-| HMM + Viterbi, classifier-only vs HMM (MT §8–9) | ✅ code; raw decoder tuning pending the final model |
-| Folium maps (DL §6) | ✅ EDA + data-quality maps; prediction maps produced by `compare_decoders` |
-| FastAPI + UI (MT §6) | ✅ code + tests; real-data rehearsal pending the final model |
-| Technical report PDF (DL §2–7) | ⏳ team-written, from `results/` |
+| Raw-data loading, validation, EDA (DE §4, §8) | on real data, `results/eda/` |
+| ≥ 5 models, GroupKFold CV, metrics (MT §2–6) | Workflow A (CSV) complete; Workflow B (raw) running |
+| Bayesian optimisation (MT §7) | code; running on both workflows |
+| HMM + Viterbi, classifier-only vs HMM (MT §8–9) | code; raw decoder tuning pending the final model |
+| Folium maps (DL §6) | EDA + data-quality maps; prediction maps produced by `compare_decoders` |
+| FastAPI + UI (MT §6) | code + tests; real-data rehearsal pending the final model |
+| Technical report PDF (DL §2–7) | Pending: team-written, from `results/` |
