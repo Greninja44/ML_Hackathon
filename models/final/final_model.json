@@ -1,0 +1,23 @@
+{
+  "final_model": "hist_gradient_boosting_tuned",
+  "rule": "tuned if CV Top-1 >= untuned CV Top-1",
+  "untuned_cv_top1": 0.7715573761152699,
+  "tuned_cv_top1": 0.7928933836627556,
+  "hmm_config": {
+    "emission": "hybrid",
+    "sigma_m": 8.0,
+    "ml_weight": 1.0,
+    "beta_m": 5.0,
+    "max_route_factor": 4.0,
+    "max_route_slack_m": 200.0,
+    "gap_seconds": 30.0,
+    "backward_tolerance_m": 5.0,
+    "min_log_prob": -50.0
+  },
+  "candidates_config": {
+    "radius_m": 50.0,
+    "max_candidates": 8,
+    "fallback_radius_m": 150.0,
+    "heading_window": 2
+  }
+}

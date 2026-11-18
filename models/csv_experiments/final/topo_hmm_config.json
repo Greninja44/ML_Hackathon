@@ -1,0 +1,9 @@
+{
+  "emission": "hybrid",
+  "sigma_m": 8.0,
+  "ml_weight": 0.7,
+  "c_next": 1.5,
+  "c_uturn": 10.0,
+  "c_jump": 4.0,
+  "min_log": -30.0
+}

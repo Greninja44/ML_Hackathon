@@ -1,0 +1,50 @@
+{
+  "seed": 42,
+  "data": {
+    "raw_dir": "data/raw",
+    "partitions": {
+      "train": "train",
+      "student_test": "student_test",
+      "eval_test": "eval_test"
+    },
+    "cache_dir": "data/processed"
+  },
+  "network": {
+    "directed": true,
+    "densify_step_m": 10.0
+  },
+  "candidates": {
+    "radius_m": 50.0,
+    "max_candidates": 8,
+    "fallback_radius_m": 150.0,
+    "heading_window": 2
+  },
+  "hmm": {
+    "emission": "hybrid",
+    "sigma_m": 8.0,
+    "ml_weight": 1.0,
+    "beta_m": 5.0,
+    "max_route_factor": 4.0,
+    "max_route_slack_m": 200.0,
+    "gap_seconds": 30.0,
+    "backward_tolerance_m": 5.0,
+    "min_log_prob": -50.0
+  },
+  "training": {
+    "cv_folds": 5,
+    "primary_metric": "top1_accuracy",
+    "n_jobs": -1
+  },
+  "optuna": {
+    "n_trials": 40,
+    "timeout_s": 3600
+  },
+  "metrics": {
+    "continuity_max_hops": 1
+  },
+  "paths": {
+    "models_dir": "models",
+    "results_dir": "results",
+    "final_model_dir": "models/final"
+  }
+}

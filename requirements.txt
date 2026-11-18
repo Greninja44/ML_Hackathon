@@ -1,0 +1,28 @@
+# Core pipeline (Python 3.11)
+numpy==2.4.6
+pandas==3.1.1
+scipy==1.17.1
+scikit-learn==1.9.1
+networkx==3.6.1
+pyproj==3.7.2
+joblib==1.6.0
+optuna==5.1.0
+matplotlib==3.11.2
+folium==1.0.0
+
+# API
+fastapi==0.163.2
+uvicorn[standard]==0.54.0
+pydantic==2.14.3
+
+# Tests & notebooks
+pytest==9.2.0
+httpx==0.28.1
+nbformat==5.11.1
+nbconvert==7.17.2
+ipykernel==7.4.0
+
+# Optional boosting libraries — only used if they import (need the OpenMP runtime;
+# on macOS: `brew install libomp`). Uncomment to install.
+# xgboost
+# lightgbm

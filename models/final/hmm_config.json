@@ -1,0 +1,11 @@
+{
+  "emission": "hybrid",
+  "sigma_m": 12.0,
+  "ml_weight": 0.5,
+  "beta_m": 40.0,
+  "max_route_factor": 4.0,
+  "max_route_slack_m": 200.0,
+  "gap_seconds": 30.0,
+  "backward_tolerance_m": 5.0,
+  "min_log_prob": -50.0
+}

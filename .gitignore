@@ -4,3 +4,35 @@ __pycache__/
 *.pyc
 data/raw/
 "@ | Out-File -Encoding utf8 .gitignore
+# --- additions from Person 2/3 (local) ---
+# environments & secrets
+venv/
+.env
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+
+# raw data is distributed separately; keep folder structure only
+data/raw/**/*
+!data/raw/**/
+!data/raw/**/.gitkeep
+data/processed/
+
+# intermediate experiment models (final model in models/final IS committed)
+models/experiments/
+results/logs/*.log
+
+# Person 1 preprocessed CSVs (large; distributed separately)
+data/person1/
+
+# Evaluator data: never commit (Dataset Exploration §7, Assessment Policy §7)
+evaluator_test.zip
+evaluator_test/
+data/raw/eval_test/*
+!data/raw/eval_test/.gitkeep
+
+# Large intermediate artifacts (regenerable)
+models/csv_experiments/*
+!models/csv_experiments/final/
+results/csv_pipeline/*_point_labels.csv
+results/logs/*.out

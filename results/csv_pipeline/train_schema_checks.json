@@ -1,0 +1,16 @@
+{
+  "partition": "train",
+  "n_trips": 80,
+  "n_pairs": 804416,
+  "n_points": 208417,
+  "candidates_per_point": {
+    "1": 20866,
+    "2": 38760,
+    "3": 2953,
+    "4": 32019,
+    "5": 113819
+  },
+  "gps_index_gaps": 0,
+  "route_steps": 31336,
+  "route_len_median": 280.0
+}
