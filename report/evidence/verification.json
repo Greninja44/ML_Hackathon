@@ -1,0 +1,88 @@
+{
+  "trip_ids_disjoint": {
+    "train\u2229student_test": 0,
+    "train\u2229eval_test": 0,
+    "student_test\u2229eval_test": 0
+  },
+  "training_rows_from": [
+    "00000001",
+    "00000002",
+    "00000003",
+    "\u2026"
+  ],
+  "training_trips_in_pairs": 80,
+  "training_pairs_include_student_or_eval_trips": false,
+  "groupkfold_trips_in_both_train_and_val": 0,
+  "fold_sizes_trips": [
+    13,
+    16,
+    17,
+    18,
+    16
+  ],
+  "models": {
+    "logistic_regression": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    },
+    "knn": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    },
+    "hist_gradient_boosting_tuned": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    },
+    "decision_tree": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    },
+    "random_forest": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    },
+    "hist_gradient_boosting": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    },
+    "extra_trees": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    },
+    "gaussian_nb": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    },
+    "mlp": {
+      "metrics": true,
+      "artifact": true,
+      "name_matches": true,
+      "student_trips_evaluated": 10
+    }
+  },
+  "final_model": {
+    "name": "hist_gradient_boosting_tuned",
+    "train_trips": 80,
+    "train_rows": 1227136
+  },
+  "label_definition": "per-point reference arc from monotone alignment of the .route sequence; pair label = candidate arc equals that arc (exactly one positive per covered point)",
+  "max_positives_per_point": 1,
+  "evaluator_data_used_for_training_or_tuning": false,
+  "evaluator_data_note": "iter_partition() refuses eval_test for development code (tested); eval trips only passed through the input-only check, labels never read"
+}

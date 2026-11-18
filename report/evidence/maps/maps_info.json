@@ -1,0 +1,28 @@
+{
+  "representative_trip": "00000007",
+  "rep_points": 1354,
+  "rep_top1_hmm": 0.9002954209748892,
+  "student_median_points": 1420.0,
+  "student_median_top1": 0.9127983413947132,
+  "detail_moving": {
+    "window": [
+      655,
+      694
+    ],
+    "classifier_hmm_disagreements": 3,
+    "mean_speed_mps": 14.2,
+    "mean_candidates": 5.2
+  },
+  "detail_most_disagreement": {
+    "window": [
+      1232,
+      1271
+    ],
+    "classifier_hmm_disagreements": 25,
+    "mean_speed_mps": 7.4,
+    "mean_candidates": 2.0
+  },
+  "network_trip": "00000052",
+  "network_arcs": 3577,
+  "network_nodes": 1770
+}

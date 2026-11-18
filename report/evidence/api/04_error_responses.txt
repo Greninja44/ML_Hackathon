@@ -1,0 +1,7 @@
+$ curl -X POST .../reconstruct -d '{"trip_id":"does-not-exist"}'
+{"detail":"Unknown trip_id 'does-not-exist'"}
+HTTP 404
+
+$ curl -X POST .../reconstruct -d '{"trip_id":"00000052","mode":"magic"}'
+{"detail":[{"type":"literal_error","loc":["body","mode"],"msg":"Input should be 'hmm' or 'classifier'","input":"magic","ctx":{"expected":"'hmm' or 'classifier'"}}]}
+HTTP 422

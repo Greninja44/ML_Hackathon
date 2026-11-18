@@ -1,0 +1,99 @@
+[Captured server output. The absolute project path is shortened to <repo>; nothing else is changed.]
+INFO:     Started server process [31517]
+INFO:     Waiting for application startup.
+2026-11-18 15:04:02,567 | INFO    | src.models.inference | Loaded model hist_gradient_boosting_tuned from <repo>/models/final
+2026-11-18 15:04:02,567 | INFO    | pathsnap.api | Loaded tuned HMM config from <repo>/models/final/hmm_config.json
+2026-11-18 15:04:02,568 | INFO    | pathsnap.api | Serving 10 trips from partition 'student_test'
+2026-11-18 15:04:02,568 | INFO    | pathsnap.api | PathSnap API ready
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+2026-11-18 15:04:02,837 | INFO    | pathsnap.api | [d673b9d8] GET /health -> 200 (4 ms)
+INFO:     127.0.0.1:52946 - "GET /health HTTP/1.1" 200 OK
+2026-11-18 15:04:02,852 | INFO    | pathsnap.api | [af056d63] GET /health -> 200 (1 ms)
+INFO:     127.0.0.1:52948 - "GET /health HTTP/1.1" 200 OK
+2026-11-18 15:04:02,863 | INFO    | pathsnap.api | list trips (10)
+2026-11-18 15:04:03,145 | INFO    | pathsnap.api | [e320a348] GET /trips -> 200 (282 ms)
+INFO:     127.0.0.1:52950 - "GET /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:03,156 | INFO    | pathsnap.api | POST /reconstruct from 127.0.0.1 trip=00000052 mode=hmm compare=True
+2026-11-18 15:04:03,229 | INFO    | pathsnap.api | reconstruct trip=00000052 mode=hmm model=hist_gradient_boosting_tuned emission=hybrid obs=262 matched=262 breaks=0 top1=1.0000 continuity=0.8902 total=72ms
+2026-11-18 15:04:03,230 | INFO    | pathsnap.api | [1df73de6] POST /reconstruct -> 200 (74 ms)
+INFO:     127.0.0.1:52952 - "POST /reconstruct HTTP/1.1" 200 OK
+2026-11-18 15:04:03,249 | INFO    | pathsnap.api | POST /reconstruct from 127.0.0.1 trip=does-not-exist mode=hmm compare=False
+2026-11-18 15:04:03,249 | INFO    | pathsnap.api | [37579da5] POST /reconstruct -> 404 (1 ms)
+INFO:     127.0.0.1:52954 - "POST /reconstruct HTTP/1.1" 404 Not Found
+2026-11-18 15:04:03,255 | INFO    | pathsnap.api | [4e59ae59] POST /reconstruct -> 422 (1 ms)
+INFO:     127.0.0.1:52956 - "POST /reconstruct HTTP/1.1" 422 Unprocessable Entity
+2026-11-18 15:04:03,606 | INFO    | pathsnap.api | [2869cc35] GET /docs -> 200 (0 ms)
+INFO:     127.0.0.1:52966 - "GET /docs HTTP/1.1" 200 OK
+2026-11-18 15:04:04,071 | INFO    | pathsnap.api | [a2b6a07c] GET /openapi.json -> 200 (11 ms)
+INFO:     127.0.0.1:52975 - "GET /openapi.json HTTP/1.1" 200 OK
+2026-11-18 15:04:27,637 | INFO    | pathsnap.api | [6385bb39] OPTIONS /health -> 200 (0 ms)
+INFO:     127.0.0.1:53003 - "OPTIONS /health HTTP/1.1" 200 OK
+2026-11-18 15:04:27,639 | INFO    | pathsnap.api | [3447937b] GET /health -> 200 (1 ms)
+INFO:     127.0.0.1:53003 - "GET /health HTTP/1.1" 200 OK
+2026-11-18 15:04:27,640 | INFO    | pathsnap.api | [378deeab] OPTIONS /trips -> 200 (0 ms)
+INFO:     127.0.0.1:53011 - "OPTIONS /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:27,641 | INFO    | pathsnap.api | list trips (10)
+2026-11-18 15:04:27,941 | INFO    | pathsnap.api | [ae6643d6] GET /trips -> 200 (300 ms)
+INFO:     127.0.0.1:53011 - "GET /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:28,680 | INFO    | pathsnap.api | [c73cf3d4] OPTIONS /health -> 200 (1 ms)
+INFO:     127.0.0.1:53057 - "OPTIONS /health HTTP/1.1" 200 OK
+2026-11-18 15:04:28,681 | INFO    | pathsnap.api | [cd0702ea] GET /health -> 200 (0 ms)
+INFO:     127.0.0.1:53057 - "GET /health HTTP/1.1" 200 OK
+2026-11-18 15:04:28,681 | INFO    | pathsnap.api | [ea1a3779] OPTIONS /trips -> 200 (0 ms)
+INFO:     127.0.0.1:53057 - "OPTIONS /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:28,682 | INFO    | pathsnap.api | list trips (10)
+2026-11-18 15:04:28,973 | INFO    | pathsnap.api | [4460a22a] GET /trips -> 200 (291 ms)
+INFO:     127.0.0.1:53059 - "GET /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:28,982 | INFO    | pathsnap.api | [3a4abd97] OPTIONS /trips/00000007/network -> 200 (0 ms)
+INFO:     127.0.0.1:53079 - "OPTIONS /trips/00000007/network HTTP/1.1" 200 OK
+2026-11-18 15:04:29,017 | INFO    | pathsnap.api | [a8733503] GET /trips/00000007/network -> 200 (34 ms)
+INFO:     127.0.0.1:53079 - "GET /trips/00000007/network HTTP/1.1" 200 OK
+2026-11-18 15:04:29,021 | INFO    | pathsnap.api | [aab31232] OPTIONS /reconstruct -> 200 (0 ms)
+INFO:     127.0.0.1:53079 - "OPTIONS /reconstruct HTTP/1.1" 200 OK
+2026-11-18 15:04:29,022 | INFO    | pathsnap.api | POST /reconstruct from 127.0.0.1 trip=00000007 mode=hmm compare=True
+2026-11-18 15:04:29,147 | INFO    | pathsnap.api | reconstruct trip=00000007 mode=hmm model=hist_gradient_boosting_tuned emission=hybrid obs=1354 matched=1354 breaks=34 top1=0.9003 continuity=1.0000 total=125ms
+2026-11-18 15:04:29,149 | INFO    | pathsnap.api | [7e520afc] POST /reconstruct -> 200 (127 ms)
+INFO:     127.0.0.1:53081 - "POST /reconstruct HTTP/1.1" 200 OK
+2026-11-18 15:04:30,356 | INFO    | pathsnap.api | [c1378bd4] OPTIONS /health -> 200 (0 ms)
+INFO:     127.0.0.1:53108 - "OPTIONS /health HTTP/1.1" 200 OK
+2026-11-18 15:04:30,357 | INFO    | pathsnap.api | [4a16a488] GET /health -> 200 (0 ms)
+INFO:     127.0.0.1:53108 - "GET /health HTTP/1.1" 200 OK
+2026-11-18 15:04:30,358 | INFO    | pathsnap.api | [dda53014] OPTIONS /trips -> 200 (0 ms)
+INFO:     127.0.0.1:53108 - "OPTIONS /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:30,358 | INFO    | pathsnap.api | list trips (10)
+2026-11-18 15:04:30,656 | INFO    | pathsnap.api | [91992dfd] GET /trips -> 200 (298 ms)
+INFO:     127.0.0.1:53110 - "GET /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:30,665 | INFO    | pathsnap.api | [95912935] OPTIONS /trips/00000009/network -> 200 (0 ms)
+INFO:     127.0.0.1:53128 - "OPTIONS /trips/00000009/network HTTP/1.1" 200 OK
+2026-11-18 15:04:30,766 | INFO    | pathsnap.api | [5df705d2] GET /trips/00000009/network -> 200 (101 ms)
+INFO:     127.0.0.1:53128 - "GET /trips/00000009/network HTTP/1.1" 200 OK
+2026-11-18 15:04:30,777 | INFO    | pathsnap.api | [d1e12c04] OPTIONS /reconstruct -> 200 (0 ms)
+INFO:     127.0.0.1:53139 - "OPTIONS /reconstruct HTTP/1.1" 200 OK
+2026-11-18 15:04:30,778 | INFO    | pathsnap.api | POST /reconstruct from 127.0.0.1 trip=00000009 mode=hmm compare=True
+2026-11-18 15:04:31,089 | INFO    | pathsnap.api | reconstruct trip=00000009 mode=hmm model=hist_gradient_boosting_tuned emission=hybrid obs=1049 matched=1049 breaks=0 top1=0.9066 continuity=0.8475 total=311ms
+2026-11-18 15:04:31,092 | INFO    | pathsnap.api | [68e60230] POST /reconstruct -> 200 (314 ms)
+INFO:     127.0.0.1:53139 - "POST /reconstruct HTTP/1.1" 200 OK
+2026-11-18 15:04:34,133 | INFO    | pathsnap.api | [577aff40] OPTIONS /health -> 200 (0 ms)
+INFO:     127.0.0.1:53213 - "OPTIONS /health HTTP/1.1" 200 OK
+2026-11-18 15:04:34,135 | INFO    | pathsnap.api | [946e0274] GET /health -> 200 (0 ms)
+INFO:     127.0.0.1:53213 - "GET /health HTTP/1.1" 200 OK
+2026-11-18 15:04:34,136 | INFO    | pathsnap.api | [4750a1aa] OPTIONS /trips -> 200 (0 ms)
+INFO:     127.0.0.1:53213 - "OPTIONS /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:34,136 | INFO    | pathsnap.api | list trips (10)
+2026-11-18 15:04:34,430 | INFO    | pathsnap.api | [28c110d3] GET /trips -> 200 (294 ms)
+INFO:     127.0.0.1:53215 - "GET /trips HTTP/1.1" 200 OK
+2026-11-18 15:04:34,438 | INFO    | pathsnap.api | [7c93a363] OPTIONS /trips/00000052/network -> 200 (0 ms)
+INFO:     127.0.0.1:53238 - "OPTIONS /trips/00000052/network HTTP/1.1" 200 OK
+2026-11-18 15:04:34,466 | INFO    | pathsnap.api | [787c4a38] GET /trips/00000052/network -> 200 (27 ms)
+INFO:     127.0.0.1:53238 - "GET /trips/00000052/network HTTP/1.1" 200 OK
+2026-11-18 15:04:34,470 | INFO    | pathsnap.api | [21d7cb7d] OPTIONS /reconstruct -> 200 (0 ms)
+INFO:     127.0.0.1:53238 - "OPTIONS /reconstruct HTTP/1.1" 200 OK
+2026-11-18 15:04:34,470 | INFO    | pathsnap.api | POST /reconstruct from 127.0.0.1 trip=00000052 mode=hmm compare=True
+2026-11-18 15:04:34,521 | INFO    | pathsnap.api | reconstruct trip=00000052 mode=hmm model=hist_gradient_boosting_tuned emission=hybrid obs=262 matched=262 breaks=0 top1=1.0000 continuity=0.8902 total=51ms
+2026-11-18 15:04:34,522 | INFO    | pathsnap.api | [05c28df6] POST /reconstruct -> 200 (52 ms)
+INFO:     127.0.0.1:53240 - "POST /reconstruct HTTP/1.1" 200 OK
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [31517]

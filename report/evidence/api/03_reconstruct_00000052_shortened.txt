@@ -1,0 +1,135 @@
+$ curl -X POST http://localhost:8001/reconstruct -H 'Content-Type: application/json' \
+    -d '{"trip_id":"00000052","mode":"hmm","compare":true}'
+
+{
+  "trip_id": "00000052",
+  "mode": "hmm",
+  "model_name": "hist_gradient_boosting_tuned",
+  "emission_source": "hybrid",
+  "n_observations_raw": 262,
+  "n_observations_used": 262,
+  "n_matched": 262,
+  "n_segment_breaks": 0,
+  "route_arc_ids": [
+    1680,
+    1671,
+    3559,
+    1685,
+    3558,
+    1681,
+    1676,
+    1678,
+    "... 93 arcs in total"
+  ],
+  "route_polylines": [
+    [
+      [
+        56.79944,
+        35.857654
+      ],
+      [
+        56.798579,
+        35.860419
+      ],
+      [
+        56.798415,
+        35.861006
+      ],
+      "..."
+    ],
+    "... 1 polylines in total"
+  ],
+  "observations": [
+    {
+      "index": 0,
+      "lat": 56.79915,
+      "lon": 35.858383,
+      "t": 1.0,
+      "arc_id": 1680,
+      "snapped": [
+        56.799197656009206,
+        35.85843229165882
+      ],
+      "score": 0.985885244083929
+    },
+    {
+      "index": 1,
+      "lat": 56.799107,
+      "lon": 35.858632,
+      "t": 2.0,
+      "arc_id": 1680,
+      "snapped": [
+        56.79912853404992,
+        35.85865427328535
+      ],
+      "score": 0.9946554585276042
+    },
+    {
+      "index": 2,
+      "lat": 56.798914,
+      "lon": 35.859006,
+      "t": 3.0,
+      "arc_id": 1680,
+      "snapped": [
+        56.798993427538434,
+        35.85908815493477
+      ],
+      "score": 0.9540606860452645
+    },
+    "... 259 more observations"
+  ],
+  "metrics": {
+    "top1_accuracy": 1.0,
+    "candidate_miss_rate": 0.0,
+    "route_continuity": 0.8902439024390244,
+    "seq_precision": 1.0,
+    "seq_recall": 0.9789473684210527,
+    "seq_f1": 0.9893617021276596,
+    "length_precision": 1.0,
+    "length_recall": 0.9968683464198425,
+    "edit_similarity": 0.9789473684210527,
+    "n_labelled_observations": 262
+  },
+  "comparison": {
+    "hmm": {
+      "top1_accuracy": 1.0,
+      "candidate_miss_rate": 0.0,
+      "route_continuity": 0.8902439024390244,
+      "seq_precision": 1.0,
+      "seq_recall": 0.9789473684210527,
+      "seq_f1": 0.9893617021276596,
+      "length_precision": 1.0,
+      "length_recall": 0.9968683464198425,
+      "edit_similarity": 0.9789473684210527,
+      "n_labelled_observations": 262
+    },
+    "classifier": {
+      "top1_accuracy": 0.9694656488549618,
+      "candidate_miss_rate": 0.0,
+      "route_continuity": 0.8333333333333334,
+      "seq_precision": 0.8454545454545455,
+      "seq_recall": 0.9789473684210527,
+      "seq_f1": 0.9073170731707316,
+      "length_precision": 0.8926394747159959,
+      "length_recall": 0.9968683464198425,
+      "edit_similarity": 0.5112359550561798,
+      "n_labelled_observations": 262
+    }
+  },
+  "timings_ms": {
+    "prepare_ms": 21.705791001295438,
+    "score_ms": 9.336333998362534,
+    "decode_ms": 16.43875000081607,
+    "assemble_ms": 0.897999998414889,
+    "total_ms": 48.37887499888893,
+    "request_total_ms": 72.44200000059209
+  },
+  "cleaning_report": {
+    "n_raw": 262,
+    "n_invalid_dropped": 0,
+    "n_duplicates_dropped": 0,
+    "was_time_sorted": true,
+    "n_outliers_flagged": 0,
+    "n_kept": 262
+  }
+}

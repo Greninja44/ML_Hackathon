@@ -1,0 +1,3 @@
+$ curl http://localhost:8001/health
+{"status":"ok","model_loaded":true,"model_name":"hist_gradient_boosting_tuned","emission":"hybrid","served_partition":"student_test","n_trips":10,"messages":[]}
+HTTP 200
